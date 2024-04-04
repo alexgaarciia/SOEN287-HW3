@@ -36,7 +36,15 @@ function findAverageAndMedian(numbers){
 }
 
 function find4Digits(str_numbers){
-    
+    let numbersArray = str_numbers.split(" ");
+    let fourDigitNumber = false;
+    for (let i = 0; i < numbersArray.length; i++){
+        if (numbersArray[i].length === 4) {
+            fourDigitNumber = numbersArray[i];
+            break;
+        }
+    }
+    document.getElementById("lol").innerHTML = fourDigitNumber;
 }
 
 
