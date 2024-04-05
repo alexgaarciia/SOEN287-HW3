@@ -1,5 +1,3 @@
-//const http = require("http");
-
 function findSummation(n){
     if (!Number.isInteger(n) || n < 1){
         return false;
@@ -46,8 +44,3 @@ function find4Digits(str_numbers){
     }
     document.getElementById("lol").innerHTML = fourDigitNumber;
 }
-
-
-/*const server = http.createServer((req, res) => {
-
-})*/
