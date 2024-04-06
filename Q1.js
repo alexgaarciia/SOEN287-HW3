@@ -1,8 +1,9 @@
 function findSummation(n){
-    if (!Number.isInteger(n) || n < 1){
+    let num = parseInt(n);
+    if (!Number.isInteger(num) || num < 1){
         return false;
     }
-    return (n*(n+1))/2;
+    return (num*(num+1))/2;
 }
 
 function uppercaseFirstandLast(str){
@@ -30,7 +31,7 @@ function findAverageAndMedian(numbers){
     } else {
         median = numbers[middleIndex];
     }
-    return avg, median;
+    return {avg, median};
 }
 
 function find4Digits(str_numbers){
