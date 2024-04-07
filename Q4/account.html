@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
     <head>
-        <title>Accout</title>
+        <title>Account</title>
         <meta charset="UTF-8"/>
         <link rel="stylesheet" href="styles.css">
     </head>
@@ -27,15 +27,17 @@
         <main>
             <h1>Become one of us!</h1>
             <h2>Create an account to know more, get more, and be more!</h2>
-            <form action="" method="POST">
+            <form action="http://localhost:3000/create-account" method="POST">
 
                 <label for="username">Username:</label>
                 <input type="text" name="username" id="username"> <br>
+                <small>Username can contain letters (both upper and lower case) and digits only.</small><br><br>
 
                 <label for="pswrd">Password:</label>
-                <input type="password" name="pswrd" id="pswrd"> <br><br>
+                <input type="password" name="pswrd" id="pswrd"> <br>
+                <small>Password must be at least 4 characters long, include at least one letter and one digit (letters and digits only).</small><br><br>
 
-                <input type="submit" value="Submit">
+                <input type="submit" value="Create account">
             </form>
 
         </main>
