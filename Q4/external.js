@@ -22,23 +22,3 @@ function displayTime(){
 
 // Set up the displayTime function to run every 1000 milliseconds (1 second)
 setInterval(displayTime, 1000);
-
-
-document.addEventListener("DOMContentLoaded", function() {
-    const form = document.querySelector('form');
-    form.onsubmit = function(e) {
-        const username = document.getElementById('username').value;
-        const password = document.getElementById('pswrd').value;
-
-        // Regular expression for validating username (letters and digits only)
-        const usernameRegex = /^[A-Za-z0-9]+$/;
-        
-        // Regular expression for validating password (at least 4 characters, at least one letter, and at least one digit)
-        const passwordRegex = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{4,}$/;
-
-        if (!usernameRegex.test(username) || !passwordRegex.test(password)) {
-            alert('Username or password format is incorrect. Usernames can contain letters and digits only. Passwords must be at least 4 characters long, contain at least one letter, and at least one digit.');
-            e.preventDefault(); // Prevent form from submitting
-        }
-    };
-});
