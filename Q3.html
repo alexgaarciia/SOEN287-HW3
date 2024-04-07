@@ -4,6 +4,15 @@
         <title>Question 3</title>
     </head>
     <body>
-        
+        <form action="http://localhost:3000/validate-phone" method="POST">
+            <h1>Enter your name and phone number</h1>
+            <label for="name">Enter your name:</label>
+            <input type="text" name="name" id="name"> <br>
+
+            <label for="phone">Enter your phone number (ddd-ddd-dddd):</label>
+            <input type="text" name="phone" id="phone"> <br><br>
+
+            <input type="submit" value="Submit">
+        </form>        
     </body>
 </html>
