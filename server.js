@@ -1,6 +1,5 @@
 const express = require('express');
 const app = express();
-const port = 3000;
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
@@ -53,3 +52,31 @@ function find4Digits(str_numbers) {
     }
     return false;
 }
+
+// Express Routes for Function Calls
+
+app.get('/findSummation/:n?', (req, res) => {
+    const { n } = req.params;
+    res.send({ result: findSummation(n) });
+});
+
+app.post('/uppercaseFirstandLast', (req, res) => {
+    const { text } = req.body;
+    res.send({ result: uppercaseFirstandLast(text) });
+});
+
+app.post('/findAverageAndMedian', (req, res) => {
+    const { numbers } = req.body;
+    res.send(findAverageAndMedian(numbers));
+});
+
+app.get('/find4Digits/:str_numbers', (req, res) => {
+    const { str_numbers } = req.params;
+    res.send({ result: find4Digits(str_numbers) });
+});
+
+// Starting the Server
+const PORT = 3000;
+app.listen(PORT, () => {
+    console.log(`Server running on http://localhost:${PORT}`);
+});
