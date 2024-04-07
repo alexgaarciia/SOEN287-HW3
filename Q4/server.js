@@ -33,7 +33,7 @@ app.post("/create-account", (req, res) => {
         }
 
         // Add new user
-        fs.appendFile(loginFilePath, `${username}:${password}`, err => {
+        fs.appendFile(loginFilePath, `\n${username}:${password}`, err => {
             if (err) {
                 console.error(err);
                 return res.send("Failed to create account. Please try again.");
@@ -79,19 +79,15 @@ app.post("/submit-pet", (req, res) => {
                     if (err) {
                         console.error(err);
                         return res.send("Failed to submit pet. Please try again.");
-                    }
-        
+                    }        
                     res.send("Pet successfully submitted.");
                 });
-            });
- 
+            }); 
         } else {
             res.send("Login failed. Username or password is incorrect.");
         }
     });
 });
-
-
 
 const PORT = 3000;
 app.listen(PORT, () => {
