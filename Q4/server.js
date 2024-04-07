@@ -1,11 +1,12 @@
 const fs = require("fs");
 const express = require("express");
-const bodyParser = require("express").urlencoded({enteded: true});
+const bodyParser = require("express").urlencoded({extended: true});
 
 const app = express();
 app.use(bodyParser);
 
 const loginFilePath = "./logins.txt";
+const petsFilePath = "./availablePetsInformation.txt"; 
 
 app.post("/create-account", (req, res) => {
     const {username, pswrd: password} = req.body;
@@ -42,6 +43,55 @@ app.post("/create-account", (req, res) => {
         })
     })
 })
+
+app.post("/submit-pet", (req, res) => {
+    const {username, password} = req.body;
+    fs.readFile(loginFilePath, 'utf-8', (err, data) => {
+        if (err) return res.status(500).send("Server error");
+        const users = data.trim().split("\n");
+        const validLogin = users.some(user => user === `${username}:${password}`);
+        if (validLogin) {
+            const { petType, breed, age, gender, getsAlongDogs, getsAlongCats, goodWithChildren, comments, ownerFamilyName, ownerGivenName, ownerEmail } = req.body;
+            fs.readFile(petsFilePath, 'utf-8', (err, data) => {
+                // Parse existing pets to determine the next ID
+                const pets = data ? data.trim().split("\n") : [];
+                const nextId = pets.length + 1;
+        
+                // Make the new pets entry
+                const newPet = [
+                    nextId,
+                    req.body.username,
+                    petType,
+                    breed,
+                    age,
+                    gender,
+                    getsAlongDogs ? "yes" : "no",
+                    getsAlongCats ? "yes" : "no",
+                    goodWithChildren ? "yes" : "no",
+                    comments,
+                    ownerFamilyName,
+                    ownerGivenName,
+                    ownerEmail
+                ].join(":");
+        
+                // Append the new entry to the file
+                fs.appendFile(petsFilePath, `${newPet}\n`, err => {
+                    if (err) {
+                        console.error(err);
+                        return res.send("Failed to submit pet. Please try again.");
+                    }
+        
+                    res.send("Pet successfully submitted.");
+                });
+            });
+ 
+        } else {
+            res.send("Login failed. Username or password is incorrect.");
+        }
+    });
+});
+
+
 
 const PORT = 3000;
 app.listen(PORT, () => {
