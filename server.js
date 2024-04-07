@@ -1,3 +1,11 @@
+const express = require('express');
+const app = express();
+const port = 3000;
+
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+
+
 function findSummation(n){
     let num = parseInt(n);
     if (!Number.isInteger(num) || num < 1){
@@ -6,12 +14,14 @@ function findSummation(n){
     return (num*(num+1))/2;
 }
 
-function uppercaseFirstandLast(str){
-    let wordsArray = str.split(" ");
-    for (let i = 0; i < wordsArray.length; i++){
-        wordsArray[i] = wordsArray[i][0].toUpperCase() + wordsArray[i].substr(1);
-    }
-    return wordsArray.join(" ");
+function uppercaseFirstandLast(str) {
+    return str.split(' ').map(word => {
+        if (word.length > 1) {
+            return word.charAt(0).toUpperCase() + word.substring(1, word.length - 1) + word.charAt(word.length - 1).toUpperCase();
+        } else {
+            return word.toUpperCase();
+        }
+    }).join(' ');
 }
 
 function findAverageAndMedian(numbers){
@@ -34,14 +44,12 @@ function findAverageAndMedian(numbers){
     return {avg, median};
 }
 
-function find4Digits(str_numbers){
+function find4Digits(str_numbers) {
     let numbersArray = str_numbers.split(" ");
-    let fourDigitNumber = false;
-    for (let i = 0; i < numbersArray.length; i++){
-        if (numbersArray[i].length === 4) {
-            fourDigitNumber = numbersArray[i];
-            break;
+    for (let number of numbersArray) {
+        if (number.length === 4 && !isNaN(number)) {
+            return number;
         }
     }
-    document.getElementById("lol").innerHTML = fourDigitNumber;
+    return false;
 }
