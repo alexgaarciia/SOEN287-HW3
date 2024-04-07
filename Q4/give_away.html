@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>Give away</title>
+        <meta charset="UTF-8"/>
+        <link rel="stylesheet" href="styles.css">
+    </head>
+    <body>
+        <header>
+            <a href="home.html">
+                <img src="logo.jpg" alt="Logo" height="70">
+            </a>
+            <h3>Paws & Hearts Adoption Haven</h3>
+            <p id="datetime"></p>
+        </header>
+
+        <nav>
+            <a href="home.html">Home page</a><br>
+            <a href="pets.html">Browse Available Pets</a><br>
+            <a href="find.html">Find a dog/cat</a><br>
+            <a href="dog_care.html">Dog Care</a><br>
+            <a href="cat_care.html">Cat Care</a><br>
+            <a href="give_away.html">Have a pet to give away</a><br>  
+            <a href="contact.html">Contact Us</a>     
+        </nav>
+
+        <main>
+            <fieldset>
+                <legend>Give up for adoption</legend>
+                <form id="giveAwayForm" method="post" onsubmit="return submitValidation()">
+                    <label for="petType">Cat or Dog:</label>
+                    <select id="petType" name="petType">
+                        <option value="" selected disabled>Choose here</option>
+                        <option value="cat">Cat</option>
+                        <option value="dog">Dog</option>
+                    </select> <br><br>
+
+                    <label for="breed">Breed (include 'Mix' if applicable):</label>
+                    <input type="text" id="breed" name="breed" placeholder="e.g., Labrador, Persian, Mix"> <br><br>
+                  
+                    <label for="age">Age of Animal:</label>
+                    <select id="age" name="age">
+                        <option value="" selected disabled>Choose here</option>
+                        <option value="puppyKitten">Puppy/Kitten</option>
+                        <option value="young">Young</option>
+                        <option value="adult">Adult</option>
+                        <option value="senior">Senior</option>
+                    </select> <br><br>
+
+                    <label for="gender">Animal Gender:</label>
+                    <select id="gender" name="gender">
+                        <option value="" selected disabled>Choose here</option>
+                        <option value="male">Male</option>
+                        <option value="female">Female</option>
+                    </select> <br><br>
+                  
+                    <input type="checkbox" id="getsAlongDogs" name="getsAlongDogs">
+                    <label for="getsAlongDogs">Gets along with other dogs</label> <br><br>
+                  
+                    <input type="checkbox" id="getsAlongCats" name="getsAlongCats">
+                    <label for="getsAlongCats">Gets along with other cats</label> <br><br>
+                  
+                    <input type="checkbox" id="goodWithChildren" name="goodWithChildren">
+                    <label for="goodWithChildren">Suitable for a family with small children</label> <br><br>
+
+                    <label for="comments">Comments:</label>
+                    <textarea id="comments" name="comments" rows="4" cols="50" placeholder="Tell us something special about the animal..."></textarea> <br><br>
+                  
+                    <fieldset>
+                        <legend>Current Owner's Information</legend>
+                        
+                        <label for="ownerFamilyName">Family Name:</label>
+                        <input type="text" id="ownerFamilyName" name="ownerFamilyName"> <br>
+                        
+                        <label for="ownerGivenName">Given Name:</label>
+                        <input type="text" id="ownerGivenName" name="ownerGivenName"> <br>
+                        
+                        <label for="ownerEmail">Email:</label>
+                        <input type="email" id="ownerEmail" name="ownerEmail">
+                    </fieldset> <br>
+
+                    <input type="submit" value="Submit">
+                    <input type="reset" value="Clear">
+                </form>
+            </fieldset> <br>
+            <span id="error-message" style="color:red;"></span>
+        </main>
+
+        <footer>
+            © 2024 Paws & Hearts Adoption Haven. All rights reserved. <br> Privacy/Disclaimer Statement
+            <br>
+            <p style="font-size: 0.8em; margin-top: 10px;">
+                We value your trust and privacy. Your personal information is kept confidential and is never sold or misused. While we strive for accuracy, Paws & Hearts Adoption Haven cannot be held responsible for any incorrect information posted by pet owners.
+            </p>
+        </footer>  
+        <script src="external.js"></script> 
+        <script>
+            function submitValidation() {
+                // Declare variables
+                let error = false;
+                let errorMessage = '';
+                let selects = document.querySelectorAll('#giveAwayForm select'); // Get all the select elements of the form
+                
+                // Loop over the selects and check if any are left with the default value
+                selects.forEach(select => {
+                    if(select.value === '') {
+                        error = true;
+                        errorMessage += `Please choose an option for ${select.previousElementSibling.textContent.trim()}\n`;
+                    }
+                });
+
+                // Check compatibility checkboxes
+                let checkboxes = document.querySelectorAll('#giveAwayForm input[type="checkbox"]');
+                let isChecked = Array.from(checkboxes).some(checkbox => checkbox.checked);
+
+                // If none of the checkboxes are checked, add an error message
+                if (!isChecked) {
+                    error = true;
+                    errorMessage += 'Please select at least one compatibility option\n';
+                }
+
+                // Check owner's information inputs
+                let ownerFamilyName = document.getElementById('ownerFamilyName').value.trim();
+                let ownerGivenName = document.getElementById('ownerGivenName').value.trim();
+                let ownerEmail = document.getElementById('ownerEmail').value.trim();
+
+                if(ownerFamilyName === '') {
+                    error = true;
+                    errorMessage += 'Please enter the owner\'s family name\n';
+                }
+                if(ownerGivenName === '') {
+                    error = true;
+                    errorMessage += 'Please enter the owner\'s given name\n';
+                }
+                if(ownerEmail === '') {
+                    error = true;
+                    errorMessage += 'Please enter the owner\'s email\n';
+                }
+
+                // If error is true, prevent form from submitting and display the error message
+                if (error) {
+                    document.getElementById('error-message').innerHTML = errorMessage.replace(/\n/g, '<br>');
+                    return false; // Prevent the form from submitting
+                }
+
+                // If everything's okay, allow the form to submit
+                return true;
+            }
+        </script> 
+    </body>
+</html>
