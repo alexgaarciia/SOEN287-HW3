@@ -20,5 +20,5 @@ app.post("/validate-phone", (req, res) => {
     }
 });
 
-const PORT = 5250;
+const PORT = 5249;
 app.listen(PORT, () => console.log(`Listening on port ${PORT}`));
