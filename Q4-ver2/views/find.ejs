@@ -1,0 +1,119 @@
+<%- include('partials/header', { title: 'Adopt an animal' }) %>
+
+<main>
+    <fieldset>
+        <legend>Find your soulmate!</legend>
+        <form id="adoptionForm" method="post" onsubmit="return submitValidation()">                    
+            <label for="petType">Dog or Cat:</label>
+            <select name="petType" id="petType">
+                <option value="" selected disabled>Choose here</option>
+                <option value="dog">Dog</option>
+                <option value="cat">Cat</option>
+            </select> <br><br>                    
+
+            <label for="breed">Breed:</label>
+            <select id="breed" name="breed">
+                <option value="" selected disabled>Choose here</option>
+
+                <!-- Dog Breeds -->
+                <option value="labrador">Labrador Retriever</option>
+                <option value="germanShepherd">German Shepherd</option>
+                <option value="goldenRetriever">Golden Retriever</option>
+                <option value="frenchBulldog">French Bulldog</option>
+                <option value="bulldog">Bulldog</option>
+                <option value="beagle">Beagle</option>
+                <option value="poodle">Poodle</option>
+                <option value="rottweiler">Rottweiler</option>
+                <option value="germanShorthairedPointer">German Shorthaired Pointer</option>
+                <option value="siberianHusky">Siberian Husky</option>
+
+                <!-- Cat Breeds -->
+                <option value="persian">Persian</option>
+                <option value="maineCoon">Maine Coon</option>
+                <option value="ragdoll">Ragdoll</option>
+                <option value="siamese">Siamese</option>
+                <option value="bengal">Bengal</option>
+                <option value="sphynx">Sphynx</option>
+                <option value="britishShorthair">British Shorthair</option>
+                <option value="scottishFold">Scottish Fold</option>
+                <option value="burmese">Burmese</option>
+                <option value="americanShorthair">American Shorthair</option>
+
+                <option value="doesNotMatter">Doesn't Matter</option>
+            </select> <br><br>
+
+            <label for="age">Preferred Age:</label>
+            <select id="age" name="age">
+                <option value="" selected disabled>Choose here</option>
+                <option value="puppyKitten">Puppy/Kitten</option>
+                <option value="young">Young</option>
+                <option value="adult">Adult</option>
+                <option value="senior">Senior</option>
+                <option value="doesNotMatter">Doesn't Matter</option>
+            </select> <br><br>
+
+            <label for="gender">Preferred Gender:</label>
+            <select id="gender" name="gender">
+                <option value="" selected disabled>Choose here</option>
+                <option value="male">Male</option>
+                <option value="female">Female</option>
+                <option value="doesNotMatter">Doesn't Matter</option>
+            </select> <br>            
+
+            <p>Compatibility:</p>
+            <input type="checkbox" id="otherDogs" name="otherDogs">
+            <label for="otherDogs">Gets along with other dogs</label>
+            <br>
+          
+            <input type="checkbox" id="otherCats" name="otherCats">
+            <label for="otherCats">Gets along with other cats</label>
+            <br>
+          
+            <input type="checkbox" id="smallChildren" name="smallChildren">
+            <label for="smallChildren">Good with small children</label> <br><br>
+
+            <input type="submit" value="Submit">
+            <input type="reset" value="Rest">
+        </form>
+    </fieldset> <br>
+    <span id="error-message" style="color:red;"></span>
+</main>
+
+<script src="external.js"></script> 
+<script>
+    function submitValidation() {
+        // Declare variables
+        let error = false;
+        let errorMessage = '';
+        let selects = document.querySelectorAll('#adoptionForm select'); // Get all the select elements of the form
+        
+        // Loop over the selects and check if any are left with the default value
+        selects.forEach(select => {
+            if(select.value === '') {
+                error = true;
+                errorMessage += `Please choose an option for ${select.previousElementSibling.textContent.trim()}\n`;
+            }
+        });
+
+        // Check compatibility checkboxes
+        let checkboxes = document.querySelectorAll('#adoptionForm input[type="checkbox"]');
+        let isChecked = Array.from(checkboxes).some(checkbox => checkbox.checked);
+
+        // If none of the checkboxes are checked, add an error message
+        if (!isChecked) {
+            error = true;
+            errorMessage += 'Please select at least one compatibility option\n';
+        }
+        
+        // If error is true, prevent form from submitting and display the error message
+        if (error) {
+            document.getElementById('error-message').innerHTML = errorMessage.replace(/\n/g, '<br>');
+            return false; // Prevent the form from submitting
+        }
+
+        // If everything's okay, allow the form to submit
+        return true;
+    }
+</script>
+
+<%- include('partials/footer') %>

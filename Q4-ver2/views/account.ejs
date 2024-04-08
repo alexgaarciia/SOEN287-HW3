@@ -1,0 +1,42 @@
+<%- include('partials/header', { title: 'Account' }) %>
+
+<main>
+    <h1>Become one of us!</h1>
+    <h2>Create an account to know more, get more, and be more!</h2>
+    <form action="http://localhost:3000/create-account" method="POST">
+
+        <label for="username">Username:</label>
+        <input type="text" name="username" id="username"> <br>
+        <small>Username can contain letters (both upper and lower case) and digits only.</small><br><br>
+
+        <label for="pswrd">Password:</label>
+        <input type="password" name="pswrd" id="pswrd"> <br>
+        <small>Password must be at least 4 characters long, include at least one letter and one digit (letters and digits only).</small><br><br>
+
+        <input type="submit" value="Create account">
+    </form>
+
+</main>
+
+<script src="external.js">
+    document.addEventListener("DOMContentLoaded", function() {
+    const form = document.querySelector('form');
+    form.onsubmit = function(e) {
+        const username = document.getElementById('username').value;
+        const password = document.getElementById('pswrd').value;
+
+        // Regular expression for validating username (letters and digits only)
+        const usernameRegex = /^[A-Za-z0-9]+$/;
+        
+        // Regular expression for validating password (at least 4 characters, at least one letter, and at least one digit)
+        const passwordRegex = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{4,}$/;
+
+        if (!usernameRegex.test(username) || !passwordRegex.test(password)) {
+            alert('Username or password format is incorrect. Usernames can contain letters and digits only. Passwords must be at least 4 characters long, contain at least one letter, and at least one digit.');
+            e.preventDefault(); // Prevent form from submitting
+        }
+    };
+});
+</script>
+
+<%- include('partials/footer') %>
