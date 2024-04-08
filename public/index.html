@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+    <body>
+        <h1>Server Function Forms</h1>
+
+        <!-- Form for findSummation -->
+        <form action="/findSummation" method="get">
+        <label for="n">Enter a positive integer:</label>
+        <input type="number" id="n" name="n" min="1" required>
+        <input type="submit" value="Find Summation">
+        </form>
+
+        <!-- Form for uppercaseFirstandLast -->
+        <form action="/uppercaseFirstandLast" method="post">
+        <label for="text">Enter text:</label>
+        <input type="text" id="text" name="text" required>
+        <input type="submit" value="Uppercase First and Last">
+        </form>
+
+        <!-- Form for findAverageAndMedian -->
+        <form id="averageMedianForm">
+        <label for="numbers">Enter numbers separated by commas:</label>
+        <input type="text" id="numbers" name="numbers" required>
+        <input type="submit" value="Find Average and Median">
+        </form>
+
+        <!-- Form for find4Digits -->
+        <form action="/find4Digits" method="get">
+        <label for="str_numbers">Enter numbers separated by spaces:</label>
+        <input type="text" id="str_numbers" name="str_numbers" required>
+        <input type="submit" value="Find 4 Digits">
+        </form>
+
+        <script>
+            document.getElementById("averageMedianForm").onsubmit = function(event) {
+            event.preventDefault();
+            const numbers = document.getElementById("numbers").value.split(',').map(Number);
+            fetch('/findAverageAndMedian', {
+                method: 'POST',
+                headers: {
+                'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ numbers }),
+            })
+            .then(response => response.json())
+            .then(data => alert(`Average: ${data.avg}, Median: ${data.median}`))
+            .catch((error) => {
+                console.error('Error:', error);
+            });
+            };
+        </script>        
+    </body>
+</html>

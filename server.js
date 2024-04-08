@@ -1,9 +1,10 @@
 const express = require('express');
 const app = express();
+const path = require('path');
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-
+app.use(express.static('public')); 
 
 function findSummation(n){
     let num = parseInt(n);
@@ -54,9 +55,8 @@ function find4Digits(str_numbers) {
 }
 
 // Express Routes for Function Calls
-
-app.get('/findSummation/:n?', (req, res) => {
-    const { n } = req.params;
+app.get('/findSummation', (req, res) => {
+    const n = req.query.n; 
     res.send({ result: findSummation(n) });
 });
 
@@ -70,8 +70,8 @@ app.post('/findAverageAndMedian', (req, res) => {
     res.send(findAverageAndMedian(numbers));
 });
 
-app.get('/find4Digits/:str_numbers', (req, res) => {
-    const { str_numbers } = req.params;
+app.get('/find4Digits', (req, res) => {
+    const str_numbers = req.query.str_numbers; 
     res.send({ result: find4Digits(str_numbers) });
 });
 
