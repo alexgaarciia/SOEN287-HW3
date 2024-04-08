@@ -3,7 +3,7 @@
 <main>
     <fieldset>
         <legend>Find your soulmate!</legend>
-        <form id="adoptionForm" method="post" onsubmit="return submitValidation()">                    
+        <form id="adoptionForm" action="/find-pets" method="post" onsubmit="return submitValidation()">
             <label for="petType">Dog or Cat:</label>
             <select name="petType" id="petType">
                 <option value="" selected disabled>Choose here</option>
@@ -16,28 +16,20 @@
                 <option value="" selected disabled>Choose here</option>
 
                 <!-- Dog Breeds -->
-                <option value="labrador">Labrador Retriever</option>
-                <option value="germanShepherd">German Shepherd</option>
-                <option value="goldenRetriever">Golden Retriever</option>
-                <option value="frenchBulldog">French Bulldog</option>
+                <option value="labrador">Labrador</option>
                 <option value="bulldog">Bulldog</option>
                 <option value="beagle">Beagle</option>
                 <option value="poodle">Poodle</option>
                 <option value="rottweiler">Rottweiler</option>
-                <option value="germanShorthairedPointer">German Shorthaired Pointer</option>
-                <option value="siberianHusky">Siberian Husky</option>
+                <option value="husky">Husky</option>
 
                 <!-- Cat Breeds -->
                 <option value="persian">Persian</option>
-                <option value="maineCoon">Maine Coon</option>
                 <option value="ragdoll">Ragdoll</option>
                 <option value="siamese">Siamese</option>
                 <option value="bengal">Bengal</option>
                 <option value="sphynx">Sphynx</option>
-                <option value="britishShorthair">British Shorthair</option>
-                <option value="scottishFold">Scottish Fold</option>
                 <option value="burmese">Burmese</option>
-                <option value="americanShorthair">American Shorthair</option>
 
                 <option value="doesNotMatter">Doesn't Matter</option>
             </select> <br><br>

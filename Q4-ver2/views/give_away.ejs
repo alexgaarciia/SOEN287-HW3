@@ -8,17 +8,37 @@
             <input type="text" name="username" id="username"> <br>
                 
             <label for="password">Password:</label>
-            <input type="password" name="password" id="password"> <br>
+            <input type="password" name="password" id="password"> <br><br>
             
             <label for="petType">Cat or Dog:</label>
             <select id="petType" name="petType">
                 <option value="" selected disabled>Choose here</option>
                 <option value="cat">Cat</option>
                 <option value="dog">Dog</option>
-            </select> <br><br>
+            </select> <br>
 
-            <label for="breed">Breed (include 'Mix' if applicable):</label>
-            <input type="text" id="breed" name="breed" placeholder="e.g., Labrador, Persian, Mix"> <br><br>
+            <label for="breed">Breed:</label>
+            <select id="breed" name="breed">
+                <option value="" selected disabled>Choose here</option>
+
+                <!-- Dog Breeds -->
+                <option value="labrador">Labrador</option>
+                <option value="bulldog">Bulldog</option>
+                <option value="beagle">Beagle</option>
+                <option value="poodle">Poodle</option>
+                <option value="rottweiler">Rottweiler</option>
+                <option value="husky">Husky</option>
+
+                <!-- Cat Breeds -->
+                <option value="persian">Persian</option>
+                <option value="ragdoll">Ragdoll</option>
+                <option value="siamese">Siamese</option>
+                <option value="bengal">Bengal</option>
+                <option value="sphynx">Sphynx</option>
+                <option value="burmese">Burmese</option>
+
+                <option value="doesNotMatter">Doesn't Matter</option>
+            </select> <br>
           
             <label for="age">Age of Animal:</label>
             <select id="age" name="age">
@@ -27,7 +47,7 @@
                 <option value="young">Young</option>
                 <option value="adult">Adult</option>
                 <option value="senior">Senior</option>
-            </select> <br><br>
+            </select> <br>
 
             <label for="gender">Animal Gender:</label>
             <select id="gender" name="gender">

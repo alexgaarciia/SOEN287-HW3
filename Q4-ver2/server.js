@@ -67,47 +67,61 @@ app.post("/create-account", (req, res) => {
     const passwordRegex = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{4,}$/;
 
     if (!usernameRegex.test(username) || !passwordRegex.test(password)) {
-        return res.send(`
-        Username or password format is incorrect.
-        <br><br>
-        <button onclick="location.href='/account.html'">Go Back</button>`)
-
+        const script = `
+            <script>
+                alert('Username or password format is incorrect.');
+                window.history.back();
+            </script>
+        `;
+        return res.send(script);
     }
 
     // Check if username already exists
     fs.readFile(loginFilePath, 'utf-8', (err, data) => {
         if (err) {
             console.error(err);
-            return res.send(`
-            An error occurred. Please try again.
-            <br><br>
-            <button onclick="location.href='/account.html'">Go Back</button>`);
+            const script = `
+            <script>
+                alert('An error occurred. Please try again.');
+                window.history.back();
+            </script>
+        `;
+            return res.send(script);
         }
 
         const users = data.split("\n");
         const exists = users.some(user => user.split(":")[0] === username);
 
         if (exists) {
-            return res.send(`
-            This username is not available. Please choose another.
-            <br><br>
-            <button onclick="location.href='/account.html'">Go Back</button>`);
+            const script = `
+            <script>
+                alert('This username is not available. Please choose another.');
+                window.history.back();
+            </script>
+        `;
+            return res.send(script);
         }
 
         // Add new user
         fs.appendFile(loginFilePath, `\n${username}:${password}`, err => {
             if (err) {
                 console.error(err);
-                return res.send(`
-                Failed to create account. Please try again.
-                <br><br>
-                <button onclick="location.href='/account.html'">Go Back</button>`);
+                const script = `
+                <script>
+                    alert('Failed to create account. Please try again.');
+                    window.history.back();
+                </script>
+            `;
+                return res.send(script);
             }
 
-            res.send(`
-            Account successfully created. You are now ready to login.
-            <br><br>
-            <button onclick="location.href='/account.html'">Go Back</button>`)
+            const script = `
+            <script>
+                alert('Account successfully created. You are now ready to login.');
+                window.history.back();
+            </script>
+        `;
+            return res.send(script);
         })
     })
 })
@@ -117,9 +131,11 @@ app.post("/submit-pet", (req, res) => {
     const {username, password} = req.body;
     fs.readFile(loginFilePath, 'utf-8', (err, data) => {
         if (err) return res.status(500).send(`
-        Server error
-        <br><br>
-        <button onclick="location.href='/give_away.html'">Go Back</button>`);
+        <script>
+            alert('Server error');
+            window.history.back();
+        </script>
+    `);
         const users = data.trim().split("\n");
         const validLogin = users.some(user => user === `${username}:${password}`);
         if (validLogin) {
@@ -150,23 +166,77 @@ app.post("/submit-pet", (req, res) => {
                 fs.appendFile(petsFilePath, `${newPet}\n`, err => {
                     if (err) {
                         console.error(err);
-                        return res.send(`
-                        Failed to submit pet. Please try again.
-                        <br><br>
-                        <button onclick="location.href='/give_away.html'">Go Back</button>`);
-                    }        
-                    res.send(`
-                    Pet successfully submitted.
-                    <br><br>
-                    <button onclick="location.href='/give_away.html'">Go Back</button>`);
+                        const script = `
+                        <script>
+                            alert('Failed to submit pet. Please try again.');
+                            window.history.back();
+                        </script>
+                    `;
+                        return res.send(script);
+                    } 
+                    
+                    const script = `
+                    <script>
+                        alert('Pet successfully submitted.');
+                        window.history.back();
+                    </script>
+                `;
+                    return res.send(script);
                 });
             }); 
         } else {
-            res.send(`
-            Login failed. Username or password is incorrect.
-            <br><br>
-            <button onclick="location.href='/give_away.html'">Go Back</button>`);
+            const script = `
+            <script>
+                alert('Login failed. Username or password is incorrect.');
+                window.history.back();
+            </script>
+        `;
+            return res.send(script);
         }
+    });
+});
+
+app.post("/find-pets", (req, res) => {
+    const { petType, breed, age, gender, otherDogs, otherCats, smallChildren } = req.body;
+
+    fs.readFile(petsFilePath, 'utf-8', (err, data) => {
+        if (err) {
+            console.error(err);
+            return res.status(500).send("Server error");
+        }
+
+        // Convert file data into an array of pet objects
+        const pets = data.trim().split("\n").map(line => {
+            const parts = line.split(":");
+            return {
+                id: parts[0],
+                name: parts[1],
+                type: parts[2],
+                breed: parts[3],
+                age: parts[4],
+                gender: parts[5],
+                getsAlongWithDogs: parts[6],
+                getsAlongWithCats: parts[7],
+                goodWithChildren: parts[8],
+                ownerFamilyName: parts[10],
+                ownerGivenName: parts[11],
+                ownerEmail: parts[12]
+            };
+        });
+
+        // Filter pets based on the form submission
+        const filteredPets = pets.filter(pet => {
+            return (petType === "doesNotMatter" || pet.type === petType) &&
+                   (breed === "doesNotMatter" || pet.breed.toLowerCase().trim() === breed.toLowerCase().trim()) &&
+                   (age === "doesNotMatter" || pet.age === age) &&
+                   (gender === "doesNotMatter" || pet.gender === gender) &&
+                   (!req.body.otherDogs || pet.getsAlongWithDogs === "yes") && 
+                   (!req.body.otherCats || pet.getsAlongWithCats === "yes") && 
+                   (!req.body.smallChildren || pet.goodWithChildren === "yes"); 
+        });
+
+        // Render a view with the filtered pets
+        res.render('find_results.ejs', { title: 'Adoption Results', pets: filteredPets });
     });
 });
 

@@ -1,0 +1,17 @@
+<%- include('partials/header', { title: 'Adoption Results' }) %>
+
+<main>
+    <% if (pets.length > 0) { %>
+        <% pets.forEach(pet => { %>
+            <div class="pet">
+                <h1>Matches:</h1>
+                <p>Owner: <%= pet.ownerFamilyName %> <%= pet.ownerGivenName %></p>
+                <p>Contact: <a href="mailto:<%= pet.ownerEmail %>"><%= pet.ownerEmail %></a></p>
+            </div>
+        <% }) %>
+    <% } else { %>
+        <p>No pets found matching your criteria.</p>
+    <% } %>
+</main>
+
+<%- include('partials/footer') %>
