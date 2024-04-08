@@ -4,49 +4,98 @@
         <h1>Server Function Forms</h1>
 
         <!-- Form for findSummation -->
-        <form action="/findSummation" method="get">
-        <label for="n">Enter a positive integer:</label>
-        <input type="number" id="n" name="n" min="1" required>
-        <input type="submit" value="Find Summation">
+        <form id="summationForm">
+            <label for="n">Enter a positive integer:</label>
+            <input type="number" id="n" name="n" min="1" required>
+            <input type="submit" value="Find Summation">
         </form>
+        <div id="resultSummation"></div> <br>
 
         <!-- Form for uppercaseFirstandLast -->
-        <form action="/uppercaseFirstandLast" method="post">
-        <label for="text">Enter text:</label>
-        <input type="text" id="text" name="text" required>
-        <input type="submit" value="Uppercase First and Last">
+        <form id="uppercaseForm">
+            <label for="text">Enter text:</label>
+            <input type="text" id="text" name="text" required>
+            <input type="submit" value="Uppercase First and Last">
         </form>
+        <div id="resultUppercase"></div> <br>
 
         <!-- Form for findAverageAndMedian -->
         <form id="averageMedianForm">
-        <label for="numbers">Enter numbers separated by commas:</label>
-        <input type="text" id="numbers" name="numbers" required>
-        <input type="submit" value="Find Average and Median">
+            <label for="numbers">Enter numbers separated by commas:</label>
+            <input type="text" id="numbers" name="numbers" required>
+            <input type="submit" value="Find Average and Median">
         </form>
+        <div id="resultAverageMedian"></div> <br>
 
         <!-- Form for find4Digits -->
-        <form action="/find4Digits" method="get">
-        <label for="str_numbers">Enter numbers separated by spaces:</label>
-        <input type="text" id="str_numbers" name="str_numbers" required>
-        <input type="submit" value="Find 4 Digits">
+        <form id="digitsForm">
+            <label for="str_numbers">Enter numbers separated by spaces:</label>
+            <input type="text" id="str_numbers" name="str_numbers" required>
+            <input type="submit" value="Find 4 Digits">
         </form>
+        <div id="resultDigits"></div>
 
         <script>
+            // Handle findSummation form
+            document.getElementById("summationForm").onsubmit = function(event) {
+                event.preventDefault();
+                const nValue = document.getElementById("n").value;
+                fetch(`/findSummation?n=${nValue}`)
+                .then(response => response.json())
+                .then(data => {
+                    document.getElementById("resultSummation").textContent = `Summation Result: ${data.result}`;
+                })
+                .catch(error => console.error('Error:', error));
+            };
+
+            // Handle uppercaseFirstandLast form
+            document.getElementById("uppercaseForm").onsubmit = function(event) {
+                event.preventDefault();
+                const textValue = document.getElementById("text").value;
+                fetch('/uppercaseFirstandLast', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ text: textValue }),
+                })
+                .then(response => response.json())
+                .then(data => {
+                    document.getElementById("resultUppercase").textContent = `Uppercase Result: ${data.result}`;
+                })
+                .catch(error => console.error('Error:', error));
+            };
+
+            // Handle findAverageAndMedian form
             document.getElementById("averageMedianForm").onsubmit = function(event) {
-            event.preventDefault();
-            const numbers = document.getElementById("numbers").value.split(',').map(Number);
-            fetch('/findAverageAndMedian', {
-                method: 'POST',
-                headers: {
-                'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({ numbers }),
-            })
-            .then(response => response.json())
-            .then(data => alert(`Average: ${data.avg}, Median: ${data.median}`))
-            .catch((error) => {
-                console.error('Error:', error);
-            });
+                event.preventDefault();
+                const numbers = document.getElementById("numbers").value.split(',').map(Number);
+                fetch('/findAverageAndMedian', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ numbers }),
+                })
+                .then(response => response.json())
+                .then(data => {
+                    document.getElementById("resultAverageMedian").textContent = `Average: ${data.avg}, Median: ${data.median}`;
+                })
+                .catch((error) => {
+                    console.error('Error:', error);
+                });
+            };
+
+            // Handle find4Digits form
+            document.getElementById("digitsForm").onsubmit = function(event) {
+                event.preventDefault();
+                const strNumbers = document.getElementById("str_numbers").value;
+                fetch(`/find4Digits?str_numbers=${strNumbers}`)
+                .then(response => response.json())
+                .then(data => {
+                    document.getElementById("resultDigits").textContent = `4 Digits Result: ${data.result}`;
+                })
+                .catch(error => console.error('Error:', error));
             };
         </script>        
     </body>
