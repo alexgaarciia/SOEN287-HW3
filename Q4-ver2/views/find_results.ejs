@@ -7,10 +7,12 @@
                 <h1>Matches:</h1>
                 <p>Owner: <%= pet.ownerFamilyName %> <%= pet.ownerGivenName %></p>
                 <p>Contact: <a href="mailto:<%= pet.ownerEmail %>"><%= pet.ownerEmail %></a></p>
-            </div>
+            </div> <br>
+            <button onclick="handleBackButton()">Go back</button>
         <% }) %>
     <% } else { %>
         <p>No pets found matching your criteria.</p>
+        <button onclick="handleBackButton()">Go back</button>
     <% } %>
 </main>
 

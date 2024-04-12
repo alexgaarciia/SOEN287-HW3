@@ -22,3 +22,7 @@ function displayTime(){
 
 // Set up the displayTime function to run every 1000 milliseconds (1 second)
 setInterval(displayTime, 1000);
+
+function handleBackButton() {
+    window.history.back(); 
+}
