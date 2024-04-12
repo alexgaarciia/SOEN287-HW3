@@ -1,7 +1,7 @@
 const express = require("express");
 const bodyParser = require("body-parser");
-
 const app = express();
+
 app.use(bodyParser.urlencoded({extended: true}));
 
 app.get("/", (req, res) => {
@@ -10,8 +10,13 @@ app.get("/", (req, res) => {
 
 // Handle form submission
 app.post("/validate-phone", (req, res) => {
-    const {name, phone} = req.body;
+    let name = req.body.name;
+    const phone = req.body.phone;
     const phoneRegex = /^\d{3}-\d{3}-\d{4}$/;
+
+    if (!name) {
+        name = "Guest";
+    }
 
     if (phoneRegex.test(phone)) {
         res.send(`Hello, ${name}. Your phone number is correctly formatted.`);
